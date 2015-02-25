@@ -53,11 +53,23 @@
     <Reference Include="MahApps.Metro">
       <HintPath>..\packages\MahApps.Metro.0.13.1.0\lib\net45\MahApps.Metro.dll</HintPath>
     </Reference>
+    <Reference Include="Platform">
+      <HintPath>..\packages\Platform.NET.1.1.0.177\lib\net40\Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="Platform.VirtualFileSystem">
+      <HintPath>..\packages\Platform.VirtualFileSystem.1.1.0.102\lib\net40\Platform.VirtualFileSystem.dll</HintPath>
+    </Reference>
+    <Reference Include="Platform.Xml.Serialization">
+      <HintPath>..\packages\Platform.Xml.Serialization.1.1.0.177\lib\net40\Platform.Xml.Serialization.dll</HintPath>
+    </Reference>
     <Reference Include="ReactiveUI">
       <HintPath>..\packages\reactiveui-core.6.4.0.1\lib\Net45\ReactiveUI.dll</HintPath>
     </Reference>
     <Reference Include="ReactiveUI.Events">
       <HintPath>..\packages\reactiveui-events.6.4.0.1\lib\net45\ReactiveUI.Events.dll</HintPath>
+    </Reference>
+    <Reference Include="SpicyTaco.AutoGrid">
+      <HintPath>..\packages\SpicyTaco.AutoGrid.0.9.0.0\lib\net40\SpicyTaco.AutoGrid.dll</HintPath>
     </Reference>
     <Reference Include="Splat">
       <HintPath>..\packages\Splat.1.6.0\lib\Net45\Splat.dll</HintPath>
@@ -110,6 +122,10 @@
       <DependentUpon>DocumentCollectionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="DocumentCollectionViewModel.cs" />
+    <Compile Include="DocumentView.xaml.cs">
+      <DependentUpon>DocumentView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DocumentViewModel.cs" />
     <Compile Include="IShell.cs" />
     <Compile Include="ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
@@ -120,6 +136,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="DocumentCollectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DocumentView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

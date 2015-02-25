@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using Caliburn.Micro;
+using Platform.VirtualFileSystem;
 using ReactiveUI;
 using StructureMap;
 
@@ -25,18 +26,26 @@ namespace ChaseTheTail
             {
                 x.ForSingletonOf<IWindowManager>().Use<WindowManager>();
                 x.ForSingletonOf<IEventAggregator>().Use<EventAggregator>();
+                x.ForSingletonOf<IFileSystemManager>().Use(FileSystemManager.Default);
                 x.For<IShell>().Use<ShellViewModel>();
+                x.ForConcreteType<DocumentCollectionViewModel>();
+                x.ForConcreteType<DocumentViewModel>();
             });
 
+            // turn off Caliburn Micro conventions
             ViewModelBinder.ApplyConventionsByDefault = false;
 
+            // save original bind action
             var bindAction = ViewModelBinder.Bind;
             ViewModelBinder.Bind = (viewModel, view, context) =>
             {
+                // call original bind action
                 bindAction(viewModel, view, context);
                 var viewFor = view as IViewFor;
                 if (viewFor != null)
                 {
+                    // set the view model of view's that implement the
+                    // IViewFor ReactiveUI interface
                     viewFor.ViewModel = viewModel;
                 }
             };
