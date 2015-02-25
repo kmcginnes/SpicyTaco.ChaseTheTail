@@ -2,7 +2,14 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:ChaseTheTail"
              mc:Ignorable="d">
-    <TextBox x:Name="Content" IsReadOnly="True"/>
+    <TextBox x:Name="Content" 
+             IsReadOnly="True"
+             local:AutoScrollBehavior.IsEnabled="True"
+             FontFamily="Consolas"
+             FontSize="16"
+             VerticalScrollBarVisibility="Auto"
+             HorizontalScrollBarVisibility="Auto"/>
 </UserControl>

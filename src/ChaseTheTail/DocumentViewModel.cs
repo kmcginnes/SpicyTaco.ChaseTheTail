@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.Reactive.Linq;
 using Caliburn.Micro.ReactiveUI;
 using Platform.VirtualFileSystem;
 using ReactiveUI;
@@ -7,23 +8,26 @@ namespace ChaseTheTail
 {
     public class DocumentViewModel : ReactiveScreen
     {
-        readonly IFile _file;
-
         public DocumentViewModel(IFile file)
         {
-            _file = file;
             DisplayName = file.Name;
+            Content = string.Empty;
+
+            var tailService = new TailService();
+            _subscription = tailService.Tail(file)
+                .ObserveOn(RxApp.MainThreadScheduler)
+                .Subscribe(x => Content += String.Format("{0}{1}", x, Environment.NewLine));
         }
 
-        protected override async void OnInitialize()
+        protected override void OnDeactivate(bool close)
         {
-            string content;
-            using (var reader = _file.GetContent().GetReader(FileShare.ReadWrite))
+            if (close)
             {
-                content = await reader.ReadToEndAsync();
+                _subscription.Dispose();
             }
-            Content = content;
         }
+
+        readonly IDisposable _subscription;
 
         string _content;
         public string Content

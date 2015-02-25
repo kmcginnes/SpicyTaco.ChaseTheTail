@@ -118,6 +118,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AppBootstrapper.cs" />
+    <Compile Include="AutoScrollBehavior.cs" />
     <Compile Include="DocumentCollectionView.xaml.cs">
       <DependentUpon>DocumentCollectionView.xaml</DependentUpon>
     </Compile>
@@ -135,6 +136,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="TailService.cs" />
     <Page Include="DocumentCollectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
