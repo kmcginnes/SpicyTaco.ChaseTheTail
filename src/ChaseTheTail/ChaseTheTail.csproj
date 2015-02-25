@@ -41,6 +41,9 @@
     <Reference Include="Caliburn.Micro.Platform">
       <HintPath>..\packages\Caliburn.Micro.2.0.1\lib\net45\Caliburn.Micro.Platform.dll</HintPath>
     </Reference>
+    <Reference Include="Caliburn.Micro.ReactiveUI">
+      <HintPath>..\packages\Caliburn.Micro.ReactiveUI.2.2.1\lib\portable-net45+win8+wp8+wpa81\Caliburn.Micro.ReactiveUI.dll</HintPath>
+    </Reference>
     <Reference Include="ReactiveUI">
       <HintPath>..\packages\reactiveui-core.6.4.0.1\lib\Net45\ReactiveUI.dll</HintPath>
     </Reference>

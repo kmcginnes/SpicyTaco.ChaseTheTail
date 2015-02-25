@@ -1,3 +1,6 @@
-namespace ChaseTheTail {
-    public interface IShell {}
+namespace ChaseTheTail
+{
+    public interface IShell
+    {
+    }
 }
