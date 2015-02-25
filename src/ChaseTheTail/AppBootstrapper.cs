@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using Caliburn.Micro;
+using ReactiveUI;
 using StructureMap;
 
 namespace ChaseTheTail
@@ -26,6 +27,19 @@ namespace ChaseTheTail
                 x.ForSingletonOf<IEventAggregator>().Use<EventAggregator>();
                 x.For<IShell>().Use<ShellViewModel>();
             });
+
+            ViewModelBinder.ApplyConventionsByDefault = false;
+
+            var bindAction = ViewModelBinder.Bind;
+            ViewModelBinder.Bind = (viewModel, view, context) =>
+            {
+                bindAction(viewModel, view, context);
+                var viewFor = view as IViewFor;
+                if (viewFor != null)
+                {
+                    viewFor.ViewModel = viewModel;
+                }
+            };
         }
 
         protected override object GetInstance(Type service, string key)

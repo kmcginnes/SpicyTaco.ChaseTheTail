@@ -1,13 +1,19 @@
-<controls:MetroWindow x:Class="ChaseTheTail.ShellView"
+﻿<controls:MetroWindow x:Class="ChaseTheTail.ShellView"
                       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls">
-
-    <Grid Background="White">
-        <TextBlock Text="Hello Caliburn Micro!"
-                   VerticalAlignment="Center"
-                   HorizontalAlignment="Center"
-                   FontSize="20" />
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      mc:Ignorable="d">
+    <Grid>
+        <StackPanel Orientation="Vertical"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+            <TextBlock Text="Go ahead. Open a log file. I dare you!"
+                       FontSize="30"/>
+            <Button x:Name="OpenDocument" Content="Open Document..."
+                    FontSize="30" Margin="10" Padding="30,10"
+                    HorizontalAlignment="Center"/>
+        </StackPanel>
     </Grid>
-
 </controls:MetroWindow>
