@@ -10,6 +10,7 @@ namespace ChaseTheTail
             InitializeComponent();
 
             this.OneWayBind(ViewModel, vm => vm.Items, v => v.Documents.ItemsSource);
+            this.Bind(ViewModel, vm => vm.ActiveItem, v => v.Documents.SelectedItem);
         }
 
         object IViewFor.ViewModel
