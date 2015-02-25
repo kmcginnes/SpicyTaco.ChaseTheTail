@@ -1,49 +1,66 @@
 using System;
 using System.IO;
+using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
+using System.Threading;
 using Platform.VirtualFileSystem;
+using ReactiveUI;
 
 namespace ChaseTheTail
 {
     public class TailService
     {
-        public IObservable<string> Tail(IFile file)
+        public IObservable<string> Tail(IFile file, IScheduler scheduler = null)
         {
-            return Observable.Create<string>(async subj =>
+            return Observable.Create<string>(subj =>
             {
                 var disposable = new CompositeDisposable();
+                scheduler = scheduler ?? RxApp.TaskpoolScheduler;
+                var abortSignal = new ManualResetEvent(false);
 
-                // read all text from file
-                string content;
-                long lastMaxOffset = 0;
-                using (var reader = new StreamReader(file.GetContent().GetInputStream(FileMode.Open, FileShare.ReadWrite)))
-                {
-                    lastMaxOffset = reader.BaseStream.Length;
-                    content = await reader.ReadToEndAsync();
-                }
-                subj.OnNext(content);
+                disposable.Add(Disposable.Create(() => abortSignal.Set()));
 
-                NodeActivityEventHandler onActivity = (sender, args) =>
+                disposable.Add(scheduler.Schedule(abortSignal, (sched, state) =>
                 {
-                    using (var reader = new StreamReader(file.GetContent().GetInputStream(FileMode.Open, FileShare.ReadWrite)))
+                    using (var reader = new StreamReader(
+                        file.GetContent().OpenStream(FileMode.Open, FileAccess.Read, FileShare.ReadWrite)))
                     {
-                        //seek to the last max offset
-                        reader.BaseStream.Seek(lastMaxOffset, SeekOrigin.Begin);
+                        long lastOffset = reader.BaseStream.Length;
+                        if (reader.BaseStream.Length > 0)
+                        {
+                            // Send the last 10 kb of text to the reader.
+                            lastOffset = Math.Max(0, reader.BaseStream.Length - (1024 * 10));
+                        }
 
-                        //read out of the file until the EOF
-                        string line = "";
-                        while ((line = reader.ReadLine()) != null)
-                            subj.OnNext(line);
+                        while (!state.WaitOne(100))
+                        {
+                            // Idle if file hasn't changed.
+                            if (reader.BaseStream.Length <= lastOffset)
+                            {
+                                if (reader.BaseStream.Length < lastOffset)
+                                {
+                                    lastOffset = reader.BaseStream.Length;
+                                }
+                                continue;
+                            }
 
-                        //update the last max offset
-                        lastMaxOffset = reader.BaseStream.Position;
+                            // Read the data.
+                            reader.BaseStream.Seek(lastOffset, SeekOrigin.Begin);
+                            var delta = reader.BaseStream.Length - lastOffset;
+                            var buffer = new char[delta];
+                            reader.ReadBlock(buffer, 0, buffer.Length);
+
+                            // Publish the data.
+                            subj.OnNext(new string(buffer));
+
+                            // Update the offset.
+                            lastOffset = reader.BaseStream.Position;
+                        }
                     }
-                };
-                file.Activity += onActivity;
+                    return Disposable.Empty;
+                }));
 
-                disposable.Add(Disposable.Create(() => file.Activity -= onActivity));
-                
                 return disposable;
             });
         }
