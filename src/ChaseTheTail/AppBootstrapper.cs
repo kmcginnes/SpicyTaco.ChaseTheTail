@@ -1,40 +1,56 @@
-namespace ChaseTheTail {
-    using System;
-    using System.Collections.Generic;
-    using Caliburn.Micro;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
+using Caliburn.Micro;
+using StructureMap;
 
-    public class AppBootstrapper : BootstrapperBase {
-        SimpleContainer container;
+namespace ChaseTheTail
+{
+    public class AppBootstrapper : BootstrapperBase
+    {
+        Container _container;
 
-        public AppBootstrapper() {
+        public AppBootstrapper()
+        {
             Initialize();
         }
 
-        protected override void Configure() {
-            container = new SimpleContainer();
+        protected override void Configure()
+        {
+            _container = new Container();
 
-            container.Singleton<IWindowManager, WindowManager>();
-            container.Singleton<IEventAggregator, EventAggregator>();
-            container.PerRequest<IShell, ShellViewModel>();
+            _container.Configure(x =>
+            {
+                x.ForSingletonOf<IWindowManager>().Use<WindowManager>();
+                x.ForSingletonOf<IEventAggregator>().Use<EventAggregator>();
+                x.For<IShell>().Use<ShellViewModel>();
+            });
         }
 
-        protected override object GetInstance(Type service, string key) {
-            var instance = container.GetInstance(service, key);
+        protected override object GetInstance(Type service, string key)
+        {
+            var instance = String.IsNullOrEmpty(key)
+                ? _container.GetInstance(service)
+                : _container.GetInstance(service, key);
             if (instance != null)
                 return instance;
 
             throw new InvalidOperationException("Could not locate any instances.");
         }
 
-        protected override IEnumerable<object> GetAllInstances(Type service) {
-            return container.GetAllInstances(service);
+        protected override IEnumerable<object> GetAllInstances(Type service)
+        {
+            return _container.GetAllInstances(service).OfType<object>();
         }
 
-        protected override void BuildUp(object instance) {
-            container.BuildUp(instance);
+        protected override void BuildUp(object instance)
+        {
+            _container.BuildUp(instance);
         }
 
-        protected override void OnStartup(object sender, System.Windows.StartupEventArgs e) {
+        protected override void OnStartup(object sender, StartupEventArgs e)
+        {
             DisplayRootViewFor<IShell>();
         }
     }
