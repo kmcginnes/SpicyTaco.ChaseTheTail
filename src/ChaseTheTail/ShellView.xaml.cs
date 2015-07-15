@@ -15,6 +15,8 @@ namespace ChaseTheTail
             this.BindCommand(ViewModel, vm => vm.OpenDocument, v => v.OpenDocument);
             this.WhenAnyValue(x => x.ViewModel.DocumentCollection)
                 .Subscribe(x => View.SetModel(Documents, x));
+
+            
         }
 
         object IViewFor.ViewModel
