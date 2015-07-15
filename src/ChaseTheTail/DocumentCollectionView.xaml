@@ -5,8 +5,15 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:cal="http://www.caliburnproject.org"
              xmlns:micro="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d">
-    <TabControl x:Name="Documents">
+    <controls:MetroTabControl x:Name="Documents">
+        <controls:MetroTabControl.ItemContainerStyle>
+            <Style TargetType="{x:Type controls:MetroTabItem}">
+                <Setter Property="CloseButtonEnabled" Value="True"/>
+                <Setter Property="CloseTabCommand" Value="{Binding Close}"/>
+            </Style>
+        </controls:MetroTabControl.ItemContainerStyle>
         <TabControl.ItemTemplate>
             <DataTemplate DataType="{x:Type micro:IHaveDisplayName}">
                 <TextBlock Text="{Binding DisplayName}"/>
@@ -17,5 +24,5 @@
                 <ContentControl cal:View.Model="{Binding}"/>
             </DataTemplate>
         </TabControl.ContentTemplate>
-    </TabControl>
+    </controls:MetroTabControl>
 </UserControl>
