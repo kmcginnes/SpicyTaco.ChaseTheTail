@@ -3,6 +3,7 @@ using System.IO;
 using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
+using System.Text;
 using System.Threading;
 using Platform.VirtualFileSystem;
 using ReactiveUI;
@@ -11,6 +12,11 @@ namespace ChaseTheTail
 {
     public class TailService
     {
+        //public IObservable<string> TailV2(IFile file)
+        //{
+        //    return ObservableFile.WatchLines(file.GetNativePath(), Encoding.Default);
+        //}
+
         public IObservable<string> Tail(IFile file, IScheduler scheduler = null)
         {
             return Observable.Create<string>(subj =>
