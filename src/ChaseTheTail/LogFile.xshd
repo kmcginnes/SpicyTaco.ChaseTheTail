@@ -1,0 +1,27 @@
+﻿<SyntaxDefinition name="LogFile" xmlns="http://icsharpcode.net/sharpdevelop/syntaxdefinition/2008">
+    <Color name="Comment" foreground="Green" />
+    <Color name="Error" foreground="DarkRed" />
+    
+    <!-- This is the main ruleset. -->
+    <RuleSet>
+        <Keywords fontWeight="bold" foreground="Gray">
+            <Word>INFO</Word>
+            <Word>DEBUG</Word>
+            <Word>WARN</Word>
+        </Keywords>
+      <Span color="Error" begin="ERROR"/>
+      <Span color="Error" begin="^.+Exception"/>
+      <Span color="Error" begin="^   at "/>
+      <Span color="Comment" fontWeight="bold" begin="^   at ^((?!System).)*$"/>
+        <!--<Keywords fontWeight="bold" foreground="DarkRed">
+            <Word>ERROR</Word>
+            <Word>FATAL</Word>
+        </Keywords>-->
+
+        <!--<Rule foreground="Firebrick">[\d+]</Rule>-->
+        
+        <!-- Date/Time -->
+        <Rule foreground="Gray">\d{4}-\d{2}-\d{2}</Rule>
+        <Rule foreground="Gray">\d{2}:\d{2}:\d{2},\d{3}</Rule>
+    </RuleSet>
+</SyntaxDefinition>
