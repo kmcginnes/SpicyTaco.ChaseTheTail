@@ -35,6 +35,9 @@ namespace ChaseTheTail
 
         readonly IFileSystemManager _fileSystem;
         readonly Lazy<DocumentCollectionViewModel> _documentCollection;
-        public DocumentCollectionViewModel DocumentCollection { get { return _documentCollection.Value; } }
+        public DocumentCollectionViewModel DocumentCollection
+        {
+            get { return _documentCollection.Value; }
+        }
     }
 }

@@ -13,6 +13,9 @@ namespace ChaseTheTail
             DisplayName = file.Name;
             Content = string.Empty;
 
+            Close = ReactiveCommand.Create();
+            Close.Subscribe(_ => TryClose(true));
+
             var tailService = new TailService();
             _subscription = tailService.Tail(file)
                 .ObserveOn(RxApp.MainThreadScheduler)
@@ -29,6 +32,8 @@ namespace ChaseTheTail
 
         readonly IDisposable _subscription;
 
+        public ReactiveCommand<object> Close { get; private set; }
+        
         string _content;
         public string Content
         {
