@@ -1,5 +1,7 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
+using ICSharpCode.AvalonEdit;
 
 namespace ChaseTheTail
 {
@@ -22,7 +24,7 @@ namespace ChaseTheTail
 
         private static void OnScrollBehaviorChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            var control = sender as TextBox;
+            var control = sender as TextEditor;
             if (control != null && e.NewValue is bool)
             {
                 var enabled = (bool) (e.NewValue);
@@ -37,12 +39,11 @@ namespace ChaseTheTail
             }
         }
 
-        private static void OnTextChanging(object sender, TextChangedEventArgs e)
+        private static void OnTextChanging(object sender, EventArgs eventArgs)
         {
-            var control = e.Source as TextBox;
+            var control = sender as TextEditor;
             if (control != null)
             {
-                control.CaretIndex = control.Text.Length;
                 control.ScrollToEnd();
             }
         }

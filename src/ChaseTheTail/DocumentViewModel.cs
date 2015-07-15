@@ -19,6 +19,7 @@ namespace ChaseTheTail
             var tailService = new TailService();
             _subscription = tailService.Tail(file)
                 .ObserveOn(RxApp.MainThreadScheduler)
+                .SelectMany(x => x.Split(new [] {Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries))
                 .Subscribe(x => Content += String.Format("{0}{1}", x, Environment.NewLine));
         }
 
