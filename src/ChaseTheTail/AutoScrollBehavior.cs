@@ -12,7 +12,7 @@ namespace ChaseTheTail
 
         public static bool GetIsEnabled(DependencyObject obj)
         {
-            return (bool)obj.GetValue(IsEnabledProperty);
+            return (bool) obj.GetValue(IsEnabledProperty);
         }
 
         public static void SetIsEnabled(DependencyObject obj, bool value)
@@ -23,19 +23,16 @@ namespace ChaseTheTail
         private static void OnScrollBehaviorChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             var control = sender as TextBox;
-            if (control != null)
+            if (control != null && e.NewValue is bool)
             {
-                if (e.NewValue is bool)
+                var enabled = (bool) (e.NewValue);
+                if (enabled)
                 {
-                    var enabled = (bool)(e.NewValue);
-                    if (enabled)
-                    {
-                        control.TextChanged += OnTextChanging;
-                    }
-                    else
-                    {
-                        control.TextChanged -= OnTextChanging;
-                    }
+                    control.TextChanged += OnTextChanging;
+                }
+                else
+                {
+                    control.TextChanged -= OnTextChanging;
                 }
             }
         }
