@@ -4,9 +4,8 @@
                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
                       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                       xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-                      xmlns:st="clr-namespace:AutoGrid;assembly=SpicyTaco.AutoGrid"
                       mc:Ignorable="d">
-    <st:AutoGrid Rows="Auto,*" ColumnWidth="*">
+    <Grid>
         <StackPanel Orientation="Vertical"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center">
@@ -17,5 +16,5 @@
                     HorizontalAlignment="Center"/>
         </StackPanel>
         <ContentControl x:Name="Documents"/>
-    </st:AutoGrid>
+    </Grid>
 </controls:MetroWindow>
