@@ -1,6 +1,7 @@
 ﻿using System;
-using System.Linq.Expressions;
+using System.Reactive.Linq;
 using System.Windows;
+using System.Windows.Input;
 using Caliburn.Micro;
 using ReactiveUI;
 
@@ -16,7 +17,11 @@ namespace ChaseTheTail
             this.WhenAnyValue(x => x.ViewModel.DocumentCollection)
                 .Subscribe(x => View.SetModel(Documents, x));
 
-            
+
+            this.Events().KeyUp
+                .Where(x => Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
+                .Where(x => x.Key == Key.O)
+                .InvokeCommand(this, x => x.ViewModel.OpenDocument);
         }
 
         object IViewFor.ViewModel
